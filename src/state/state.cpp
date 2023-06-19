@@ -14,7 +14,7 @@
 int State::evaluate(int myself){
   // [TODO] design your own evaluation function
   const Board& now = this->board;
-  //static const int value[10] = {0, 100, 300, 320, 500, 900, 5000};
+  static const int value[10] = {0, 100, 300, 320, 500, 900, 10000};
 
   // Position weights
   static const int position_values_player[8][9][10]={
@@ -64,11 +64,11 @@ int State::evaluate(int myself){
     {4300,4350,4300,4350,4300},
     {4400,4400,4400,4450,4450},
     {4650,4600,4600,4600,4600},
-    {5200,5100,5200,5100,500000},
+    {5200,5100,5200,5100,50000},
   }
   };
 
-  static const int position_values_opponent[8][9][10]={
+  static const int position_values_enemy[8][9][10]={
   {
     {0,0,0,0,0},
     {80,100,100,100,80},
@@ -104,35 +104,37 @@ int State::evaluate(int myself){
   {
     {850,900,950,900,850},
     {850,920,900,920,850},
-    {900,850,900,850,900},
+    {900,850,2000,850,900},
     {850,920,900,920,850},
     {900,850,900,850,900},
     {880,830,880,830,880},
   },
   {
-    {5200,5100,5200,5100,5000},
-    {4950,4700,4700,4700,4950},
-    {4900,4600,4900,4650,4750},
-    {4600,4650,4500,4650,4600},
-    {4500,4400,4400,4400,4500},
-    {4400,4500,4350,4500,4400},
+    {50000,5100,5200,5100,5200},
+    {4600,4600,4600,4600,4650},
+    {4450,4450,4400,4400,4400},
+    {4300,4350,4300,4350,4300},
+    {4200,4200,4200,4200,4200},
+    {4000,4000,4000,4000,4000},
   }
   };
 
-  int my_scores = 0;
-  int opponent_scores = 0;
+  int myself_scores = 0;
+  int enemy_scores = 0;
 
   for (int i = 0; i < BOARD_H; i++) {
     for (int j = 0; j < BOARD_W; j++) {
       int player_piece = now.board[myself][i][j];
-      int opponent_piece = now.board[myself ^ 1][i][j];
-
-      my_scores += position_values_player[player_piece][i][j];
-      opponent_scores +=  position_values_opponent[opponent_piece][i][j];
+      int enemy_piece = now.board[myself ^ 1][i][j];
+  
+      //enemy_scores += position_values_player[player_piece][i][j];
+      //enemy_scores +=  position_values_enemy[enemy_piece][i][j];
+      myself_scores += value[player_piece];
+      enemy_scores +=  value[enemy_piece];
     }
   }
   
-  return my_scores - opponent_scores;
+  return myself_scores - enemy_scores;
  
 }
 
