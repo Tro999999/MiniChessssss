@@ -3,12 +3,12 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "./Alpha_Beta.hpp"
+#include "./submission.hpp"
 
 using namespace std;
 
 
-int Alpha_Beta::alpha_beta(State* node,int depth, int Alpha, int Beta, int myself){
+int submission::Submission(State* node,int depth, int Alpha, int Beta, int myself){
     int val;
     if(! depth) return node->evaluate(myself);
     if(node->legal_actions.empty()) node->get_legal_actions();
@@ -16,7 +16,7 @@ int Alpha_Beta::alpha_beta(State* node,int depth, int Alpha, int Beta, int mysel
         val = -(1e9);
         for(auto it : node->legal_actions){
             State* next_move = node->next_state(it);
-            val = max(val, alpha_beta(next_move,depth-1, Alpha, Beta, myself));
+            val = max(val, Submission(next_move,depth-1, Alpha, Beta, myself));
             Alpha = max(Alpha, val);
             if(Alpha >= Beta) break;
         }
@@ -26,7 +26,7 @@ int Alpha_Beta::alpha_beta(State* node,int depth, int Alpha, int Beta, int mysel
         val = 1e9;
         for(auto it:node->legal_actions){
             State* next_move = node->next_state(it);
-            val = min(val, alpha_beta(next_move, depth-1, Alpha, Beta, myself));
+            val = min(val, Submission(next_move, depth-1, Alpha, Beta, myself));
             Beta = min(Beta, val);
             if(Beta <= Alpha) break;
         }
@@ -34,7 +34,7 @@ int Alpha_Beta::alpha_beta(State* node,int depth, int Alpha, int Beta, int mysel
     }
 }
 
-Move Alpha_Beta::get_move(State *state, int depth){
+Move submission::get_move(State *state, int depth){
   Move Best;
   int Max = -1e9;
   int tmp;
@@ -42,7 +42,7 @@ Move Alpha_Beta::get_move(State *state, int depth){
     state-> get_legal_actions();
   for(auto it:state->legal_actions){
     State* next = state->next_state(it);
-    tmp = alpha_beta(next, depth-1, Max, 1e9, state->player);
+    tmp = Submission(next, depth-1, Max, 1e9, state->player);
     if(tmp > Max){
         Max = tmp;
         Best = it;
