@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 
@@ -44,3 +45,5 @@ Move Minimax::get_move(State *state, int depth){
   }
   return Best;
 }
+
+

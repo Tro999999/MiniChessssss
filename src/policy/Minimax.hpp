@@ -1,3 +1,4 @@
+
 #ifndef __MINIMAX_H__
 #define __MINIMAX_H__
 
@@ -16,3 +17,4 @@ class Minimax{
 };
 
 #endif
+
